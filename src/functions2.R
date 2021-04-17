@@ -17,6 +17,7 @@
 #' column 7 - season (character)
 #' column 8 - year (numeric)
 #' column 9 - site (character)
+#' column 10 - section(character)
 #'
 #' @examples
 #' Vegetative summer surveys in Section 1.1 Plot A 
@@ -38,9 +39,10 @@ bind_mw_2020 <- function(file_name) {
   f <- unlist(strsplit(file_name, split = "_"))
   year_num <- f[which(grepl("2020", f))]
   
-  import_tidy$season <- f[which(f == "Summer")] 
-  import_tidy$year <- substring(year_num, first = 1L, last = 4L) 
-  import_tidy$site <- f[which(f %in% LETTERS)]
+  import_tidy$season  <- f[which(f == "Summer")] 
+  import_tidy$year    <- substring(year_num, first = 1L, last = 4L) 
+  import_tidy$site    <- f[which(f %in% LETTERS)]
+  import_tidy$section <- f[2] # IM LAZY
   
   # ensure consistent data types for all columns
   # across all data-sets during row binding operations
@@ -53,6 +55,7 @@ bind_mw_2020 <- function(file_name) {
   import_tidy$comments    <- as.character(import_tidy$comments)
   import_tidy$season      <- as.character(import_tidy$season)  
   import_tidy$year        <- as.numeric(import_tidy$year) 
+  import_tidy$section     <- as.character(import_tidy$section)
   
   return(import_tidy) 
 }
