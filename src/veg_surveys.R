@@ -31,7 +31,7 @@ rules_2020 <- validator(
     cover %in% c(1:100), 
     season == "Summer", 
     year == "2020", 
-    site %in% LETTERS
+    site %in% LETTERS,
   )
 
 summary(confront(mw_2020, rules_2020))
@@ -56,7 +56,8 @@ c_tidy2 <- c_2020 %>%
     comments = cover,
     season, 
     year, 
-    site
+    site,
+    section
   )
 
 # merge 
@@ -73,17 +74,18 @@ str(mw_tidy)
 # resident species richness
 res_sr <- mw_tidy %>%
   filter(species != "Cynanchum rossicum") %>%
-  group_by(year, season, site, quadrat_no) %>%
+  group_by(year, season, section, site, quadrat_no) %>%
   summarize(sr = length(unique(species)))
 
 (plot_res_sr <- res_sr %>%
   ggplot(aes(x = quadrat_no, y = sr)) + 
   geom_point() +
+  geom_line() + 
   geom_hline(yintercept = 15, linetype = "dashed") + 
-  facet_wrap(~site, nrow = 3, ncol = 6) +
+  facet_wrap(section~site, nrow = 3, ncol = 6) +
   labs(
     x = "Quadrat Number", 
-    y = "Species Richness", 
+    y = "Resident species richness", 
     title = "Summer 2020 (DSV excluded)") +  
   theme_bw()
 )
@@ -101,18 +103,61 @@ res_abund <- mw_tidy %>%
   ) %>%
   
   mutate(cover = as.numeric(cover)) %>%
-  group_by(year, season, site, quadrat_no) %>%
+  group_by(year, season, section, site, quadrat_no) %>%
   summarize(total_abund = sum(cover, na.rm = TRUE))
 
 (plot_res_abund <- res_abund %>%
     ggplot(aes(x = quadrat_no, y = total_abund)) + 
     geom_point() +
+    geom_line() + 
     geom_hline(yintercept = 50, linetype = "dashed") + 
-    facet_wrap(~site, nrow = 3, ncol = 6) +
+    facet_wrap(section~site, nrow = 3, ncol = 6) +
     labs(
       x = "Quadrat Number", 
-      y = "Total community abundance", 
+      y = "Resident community abundance (% cover)", 
       title = "Summer 2020 (DSV excluded)") +  
     theme_bw()
 )
 
+# plots: DSV -------------------------------------------------------------------
+
+# DSV abundance
+DSV_abund <- mw_tidy %>%
+  filter(species == "Cynanchum rossicum") %>%
+  
+  mutate(cover = case_when(
+    cover == "<1" ~ "0.1",
+    TRUE ~ cover
+  )
+  ) %>%
+  
+  mutate(cover = as.numeric(cover)) %>%
+  group_by(year, season, section, site, quadrat_no) %>%
+  summarize(total_abund = sum(cover, na.rm = TRUE))
+
+(plot_DSV_abund <- DSV_abund %>%
+    ggplot(aes(x = quadrat_no, y = total_abund)) + 
+    geom_point() +
+    geom_line() + 
+    geom_hline(yintercept = 10, linetype = "dashed") + 
+    facet_wrap(section~site, nrow = 3, ncol = 6) +
+    labs(
+      x = "Quadrat Number", 
+      y = "DSV abundance (% cover)", 
+      title = "Summer 2020 (DSV-only)") +  
+    theme_bw()
+)
+
+# save to disk! ----------------------------------------------------------------
+
+ggsave(
+  plot = plot_res_sr, 
+  filename = here("output/figures", "resident_sr.png"), 
+  device = "png"
+)
+
+ggsave(
+  plot = plot_res_abund, 
+  filename = here("output/figures", "resident_abundance.png"), 
+  device = "png"
+)
