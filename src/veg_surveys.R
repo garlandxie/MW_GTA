@@ -4,7 +4,6 @@ library(readxl)   # for importing excel files
 library(purrr)    # for iterating row-binding operations
 library(dplyr)    # for manipulating data
 library(janitor)  # for cleaning column names
-library(validate) # for validating data sets for any errors
 library(ggplot2)  # for visualizing data 
 library(stringr)  # for manipulating character strings
 
@@ -43,22 +42,6 @@ nice_df <- ls_2020[which(ls_2020 != weird_df & ls_2020 != s_345)]
 mw_2020 <- map_dfr(nice_df, bind_mw_2020)
 c_2020 <- bind_mw_2020(weird_df)
 
-# validate ---------------------------------------------------------------------
-
-# double-check  
-rules_2020 <- validator(
-    quadrat_no %in% c(1:5),
-    solitary %in% c("TRUE", "FALSE"), 
-    cf %in% c("TRUE", "FALSE"),
-    cover %in% c(1:100), 
-    season == "Summer", 
-    year == "2020", 
-    site %in% LETTERS,
-  )
-
-summary(confront(mw_2020, rules_2020))
-summary(confront(c_2020, rules_2020))
-
 # clean: c_2020 ----------------------------------------------------------------
 
 # ensure consistent columns with the other data sets
@@ -84,10 +67,6 @@ c_tidy2 <- c_2020 %>%
 
 # merge 
 mw_tidy <- rbind(mw_2020, c_tidy1, c_tidy2)
-
-# validate
-summary(confront(mw_2020, rules_2020))
-str(mw_tidy)
 
 # clean: sections 3,5,6 --------------------------------------------------------
 
@@ -126,9 +105,6 @@ mw_356_tidy <- mw_356 %>%
 
 # merge
 mw_tidy2 <- rbind(mw_tidy, mw_356_tidy)
-
-# validate
-summary(confront(c_2020, rules_2020))
 
 # plots: species richness ------------------------------------------------------
 
