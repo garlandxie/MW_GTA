@@ -126,6 +126,9 @@ mw_tidy2 <- rbind(mw_tidy, mw_356_tidy)
 
 # check packaging
 str(mw_tidy2)
+head(mw_tidy2, n = 5)
+tail(mw_tidy2, n = 5)
+dim(mw_tidy2)
 
 # plots: species richness ------------------------------------------------------
 
@@ -135,17 +138,89 @@ res_sr <- mw_tidy2 %>%
   group_by(year, season, section, site, quadrat_no) %>%
   summarize(sr = length(unique(species)))
 
-(plot_res_sr <- res_sr %>%
+(p_res_sr_s1 <- res_sr %>%
+  filter(section %in% c("1-1", "1-2", "1-3")) %>%
   ggplot(aes(x = quadrat_no, y = sr)) + 
   geom_point() +
   geom_line() + 
   geom_hline(yintercept = 15, linetype = "dashed") + 
-  facet_wrap(section, nrow = 3, ncol = 6) +
+  facet_wrap(~site, nrow = 1, ncol = 4) +
   labs(
     x = "Quadrat Number", 
     y = "Resident species richness", 
-    title = "Summer 2020 (DSV excluded)") +  
+    title = "Section 1 - Summer 2020 (DSV excluded)") +  
   theme_bw()
+)
+
+(p_res_sr_s3 <- res_sr %>%
+    filter(section %in% c("3.2", "3.3")) %>%
+    ggplot(aes(x = quadrat_no, y = sr)) + 
+    geom_point() +
+    geom_line() + 
+    geom_hline(yintercept = 15, linetype = "dashed") + 
+    facet_wrap(~site, nrow = 1, ncol = 4) +
+    labs(
+      x = "Quadrat Number", 
+      y = "Resident species richness", 
+      title = "Section 3 - Summer 2020 (DSV excluded)") +  
+    theme_bw()
+)
+
+
+(p_res_sr_s4 <- res_sr %>%
+    filter(section %in% c("4-1", "4-2", "4-3", "4-4")) %>%
+    ggplot(aes(x = quadrat_no, y = sr)) + 
+    geom_point() +
+    geom_line() + 
+    geom_hline(yintercept = 15, linetype = "dashed") + 
+    facet_wrap(~site) +
+    labs(
+      x = "Quadrat Number", 
+      y = "Resident species richness", 
+      title = "Section 4 - Summer 2020 (DSV excluded)") +  
+    theme_bw()
+)
+
+(p_res_sr_s5 <- res_sr %>%
+    filter(section %in% c("5.1", "5.3", "5.4")) %>%
+    ggplot(aes(x = quadrat_no, y = sr)) + 
+    geom_point() +
+    geom_line() + 
+    geom_hline(yintercept = 15, linetype = "dashed") + 
+    facet_wrap(~site) +
+    labs(
+      x = "Quadrat Number", 
+      y = "Resident species richness", 
+      title = "Section 5 - Summer 2020 (DSV excluded)") +  
+    theme_bw()
+)
+
+(p_res_sr_s6 <- res_sr %>%
+    filter(section %in% c("6.1", "6.2", "6.3")) %>%
+    ggplot(aes(x = quadrat_no, y = sr)) + 
+    geom_point() +
+    geom_line() + 
+    geom_hline(yintercept = 15, linetype = "dashed") + 
+    facet_wrap(~site) +
+    labs(
+      x = "Quadrat Number", 
+      y = "Resident species richness", 
+      title = "Section 6 - Summer 2020 (DSV excluded)") +  
+    theme_bw()
+)
+
+(p_res_sr_s7 <- res_sr %>%
+    filter(section %in% c("7-1")) %>%
+    ggplot(aes(x = quadrat_no, y = sr)) + 
+    geom_point() +
+    geom_line() + 
+    geom_hline(yintercept = 15, linetype = "dashed") + 
+    facet_wrap(~site) +
+    labs(
+      x = "Quadrat Number", 
+      y = "Resident species richness", 
+      title = "Section 7 - Summer 2020 (DSV excluded)") +  
+    theme_bw()
 )
 
 # plots: community abundance ---------------------------------------------------
