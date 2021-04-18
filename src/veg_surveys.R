@@ -74,7 +74,8 @@ c_tidy2 <- c_2020 %>%
     year, 
     site,
     section
-  )
+  ) %>%
+  mutate(cover = as.numeric(cover))
 
 # merge 
 mw_tidy <- rbind(mw_2020, c_tidy1, c_tidy2)
