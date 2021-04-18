@@ -142,8 +142,11 @@ res_sr <- mw_tidy2 %>%
   filter(section %in% c("1-1", "1-2", "1-3")) %>%
   ggplot(aes(x = quadrat_no, y = sr)) + 
   geom_point() +
-  geom_line() + 
   geom_hline(yintercept = 15, linetype = "dashed") + 
+  scale_y_continuous(
+      limits = c(0, 30), 
+      breaks = c(0, 5, 10, 15, 20, 25, 30)
+  ) + 
   facet_wrap(~site, nrow = 1, ncol = 4) +
   labs(
     x = "Quadrat Number", 
@@ -156,8 +159,11 @@ res_sr <- mw_tidy2 %>%
     filter(section %in% c("3.2", "3.3")) %>%
     ggplot(aes(x = quadrat_no, y = sr)) + 
     geom_point() +
-    geom_line() + 
     geom_hline(yintercept = 15, linetype = "dashed") + 
+    scale_y_continuous(
+      limits = c(0, 30), 
+      breaks = c(0, 5, 10, 15, 20, 25, 30)
+      ) + 
     facet_wrap(~site, nrow = 1, ncol = 4) +
     labs(
       x = "Quadrat Number", 
@@ -171,8 +177,11 @@ res_sr <- mw_tidy2 %>%
     filter(section %in% c("4-1", "4-2", "4-3", "4-4")) %>%
     ggplot(aes(x = quadrat_no, y = sr)) + 
     geom_point() +
-    geom_line() + 
     geom_hline(yintercept = 15, linetype = "dashed") + 
+    scale_y_continuous(
+      limits = c(0, 30), 
+      breaks = c(0, 5, 10, 15, 20, 25, 30)
+    ) + 
     facet_wrap(~site) +
     labs(
       x = "Quadrat Number", 
@@ -185,8 +194,11 @@ res_sr <- mw_tidy2 %>%
     filter(section %in% c("5.1", "5.3", "5.4")) %>%
     ggplot(aes(x = quadrat_no, y = sr)) + 
     geom_point() +
-    geom_line() + 
     geom_hline(yintercept = 15, linetype = "dashed") + 
+    scale_y_continuous(
+      limits = c(0, 30), 
+      breaks = c(0, 5, 10, 15, 20, 25, 30)
+    ) + 
     facet_wrap(~site) +
     labs(
       x = "Quadrat Number", 
@@ -199,8 +211,11 @@ res_sr <- mw_tidy2 %>%
     filter(section %in% c("6.1", "6.2", "6.3")) %>%
     ggplot(aes(x = quadrat_no, y = sr)) + 
     geom_point() +
-    geom_line() + 
     geom_hline(yintercept = 15, linetype = "dashed") + 
+    scale_y_continuous(
+      limits = c(0, 30), 
+      breaks = c(0, 5, 10, 15, 20, 25, 30)
+    ) + 
     facet_wrap(~site) +
     labs(
       x = "Quadrat Number", 
@@ -213,8 +228,11 @@ res_sr <- mw_tidy2 %>%
     filter(section %in% c("7-1")) %>%
     ggplot(aes(x = quadrat_no, y = sr)) + 
     geom_point() +
-    geom_line() + 
     geom_hline(yintercept = 15, linetype = "dashed") + 
+    scale_y_continuous(
+      limits = c(0, 30), 
+      breaks = c(0, 5, 10, 15, 20, 25, 30)
+    ) + 
     facet_wrap(~site) +
     labs(
       x = "Quadrat Number", 
@@ -284,10 +302,59 @@ DSV_abund <- mw_tidy %>%
 # save to disk! ----------------------------------------------------------------
 
 ggsave(
-  plot = plot_res_sr, 
-  filename = here("output/figures", "resident_sr.png"), 
-  device = "png"
+  plot = p_res_sr_s1, 
+  filename = here("output/figures", "p_res_sr_s1.png"), 
+  device = "png",
+  height = 10, 
+  width = 10, 
+  units = "cm"
 )
+
+ggsave(
+  plot = p_res_sr_s3, 
+  filename = here("output/figures", "p_res_sr_s3.png"), 
+  device = "png",
+  height = 10, 
+  width = 10, 
+  units = "cm"
+)
+
+ggsave(
+  plot = p_res_sr_s4, 
+  filename = here("output/figures", "p_res_sr_s4.png"), 
+  device = "png",
+  height = 10, 
+  width = 10, 
+  units = "cm"
+)
+
+ggsave(
+  plot = p_res_sr_s5, 
+  filename = here("output/figures", "p_res_sr_s5.png"), 
+  device = "png",
+  height = 10, 
+  width = 10, 
+  units = "cm"
+)
+
+ggsave(
+  plot = p_res_sr_s6, 
+  filename = here("output/figures", "p_res_sr_s6.png"), 
+  device = "png",
+  height = 10, 
+  width = 10, 
+  units = "cm"
+)
+
+ggsave(
+  plot = p_res_sr_s7, 
+  filename = here("output/figures", "p_res_sr_s7.png"), 
+  device = "png",
+  height = 10, 
+  width = 10, 
+  units = "cm"
+)
+
 
 ggsave(
   plot = plot_res_abund, 
