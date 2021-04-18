@@ -42,6 +42,17 @@ nice_df <- ls_2020[which(ls_2020 != weird_df & ls_2020 != s_345)]
 mw_2020 <- map_dfr(nice_df, bind_mw_2020)
 c_2020 <- bind_mw_2020(weird_df)
 
+# check packaging 
+str(mw_2020)
+head(mw_2020, n = 5)
+tail(mw_2020, n = 5)
+dim(mw_2020)
+
+str(c_2020)
+head(c_2020, n = 5)
+tail(c_2020, n = 5)
+dim(c_2020)
+
 # clean: c_2020 ----------------------------------------------------------------
 
 # ensure consistent columns with the other data sets
