@@ -6,8 +6,17 @@ library(dplyr)    # for manipulating data
 library(janitor)  # for cleaning column names
 library(validate) # for validating data sets for any errors
 library(ggplot2)  # for visualizing data 
+library(stringr)  # for manipulating character strings
 
-# compile data-sets ------------------------------------------------------------
+# Sections 3,4,5 ---------------------------------------------------------------
+
+mw_356 <- read_excel(
+  here("data/original/veg_surveys/2020", 
+       "MV24_3-5-6_Ground-Veg_Summer-Spring_2020.xlsx"),
+  sheet = 1
+)
+
+# Individual excel files -------------------------------------------------------
 
 source(here("src", "functions2.R"))
 ls_2020 <- list.files(here("data/original/veg_surveys/2020"))
@@ -16,7 +25,9 @@ ls_2020 <- list.files(here("data/original/veg_surveys/2020"))
 # so: remove this from the row-binding and clean it
 # then: add the clean data set with the other ones
 weird_df <- "MV24_4-2_C_Ground-Veg_Summer_2020.xlsx"
-nice_df <- ls_2020[which(ls_2020 != odd_2020)]
+s_345 <- "MV24_3-5-6_Ground-Veg_Summer-Spring_2020.xlsx"
+
+nice_df <- ls_2020[which(ls_2020 != weird_df & ls_2020 != s_345)]
 
 mw_2020 <- map_dfr(nice_df, bind_mw_2020)
 c_2020 <- bind_mw_2020(weird_df)
@@ -37,7 +48,7 @@ rules_2020 <- validator(
 summary(confront(mw_2020, rules_2020))
 summary(confront(c_2020, rules_2020))
 
-# clean ------------------------------------------------------------------------
+# clean: c_2020 ----------------------------------------------------------------
 
 # ensure consistent columns with the other data sets
 c_tidy1 <- c_2020 %>%
@@ -65,14 +76,50 @@ mw_tidy <- rbind(mw_2020, c_tidy1, c_tidy2)
 
 # validate
 summary(confront(mw_2020, rules_2020))
-
-# check packaging --------------------------------------------------------------
 str(mw_tidy)
+
+# clean: sections 3,5,6 --------------------------------------------------------
+
+mw_356_tidy <- mw_356 %>%
+  
+  clean_names() %>% 
+  
+  mutate(
+    site = str_sub(plot_id, 11, 11),
+    section = str_sub(plot_id, 7, 9)
+    ) %>%
+  
+  filter(visit == "summer") %>%
+  
+  select(
+    quadrat_no, 
+    species, 
+    common_name, 
+    solitary,
+    cf,
+    cover,
+    comments,
+    season = visit,
+    comments,
+    year = visit_year,
+    site,
+    section) %>%
+  
+  mutate(
+    cover = case_when(
+      cover == "<1" ~ "0.1", 
+      TRUE ~ cover)
+  ) %>%
+  
+  mutate(cover = as.numeric(cover))
+
+# merge
+mw_tidy2 <- rbind(mw_tidy, mw_356_tidy)
 
 # plots: species richness ------------------------------------------------------
 
 # resident species richness
-res_sr <- mw_tidy %>%
+res_sr <- mw_tidy2 %>%
   filter(species != "Cynanchum rossicum") %>%
   group_by(year, season, section, site, quadrat_no) %>%
   summarize(sr = length(unique(species)))
@@ -82,7 +129,7 @@ res_sr <- mw_tidy %>%
   geom_point() +
   geom_line() + 
   geom_hline(yintercept = 15, linetype = "dashed") + 
-  facet_wrap(section~site, nrow = 3, ncol = 6) +
+  facet_wrap(section, nrow = 3, ncol = 6) +
   labs(
     x = "Quadrat Number", 
     y = "Resident species richness", 
