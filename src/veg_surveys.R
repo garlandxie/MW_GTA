@@ -79,6 +79,12 @@ c_tidy2 <- c_2020 %>%
 # merge 
 mw_tidy <- rbind(mw_2020, c_tidy1, c_tidy2)
 
+# check packaging 
+str(mw_tidy)
+head(mw_tidy, n = 5)
+tail(mw_tidy, n = 5)
+dim(mw_tidy)
+
 # clean: sections 3,5,6 --------------------------------------------------------
 
 mw_356_tidy <- mw_356 %>%
@@ -116,6 +122,9 @@ mw_356_tidy <- mw_356 %>%
 
 # merge
 mw_tidy2 <- rbind(mw_tidy, mw_356_tidy)
+
+# check packaging
+str(mw_tidy2)
 
 # plots: species richness ------------------------------------------------------
 
