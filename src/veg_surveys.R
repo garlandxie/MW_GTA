@@ -8,6 +8,12 @@ library(validate) # for validating data sets for any errors
 library(ggplot2)  # for visualizing data 
 library(stringr)  # for manipulating character strings
 
+# Import custom functions ------------------------------------------------------
+
+# docs: https://github.com/garlandxie/MW_GTA/blob/master/src/functions2.R
+
+source(here("src", "functions2.R"))
+
 # Sections 3,4,5 ---------------------------------------------------------------
 
 mw_356 <- read_excel(
@@ -24,7 +30,6 @@ dim(mw_356)
 
 # Individual excel files -------------------------------------------------------
 
-source(here("src", "functions2.R"))
 ls_2020 <- list.files(here("data/original/veg_surveys/2020"))
 
 # there's one file with inconsistent data across columns
