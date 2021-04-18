@@ -16,6 +16,12 @@ mw_356 <- read_excel(
   sheet = 1
 )
 
+# check packaging
+str(mw_356)
+head(mw_356, n = 5)
+tail(mw_356, n = 5)
+dim(mw_356)
+
 # Individual excel files -------------------------------------------------------
 
 source(here("src", "functions2.R"))
@@ -115,6 +121,9 @@ mw_356_tidy <- mw_356 %>%
 
 # merge
 mw_tidy2 <- rbind(mw_tidy, mw_356_tidy)
+
+# validate
+summary(confront(c_2020, rules_2020))
 
 # plots: species richness ------------------------------------------------------
 
