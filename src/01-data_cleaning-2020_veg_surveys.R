@@ -362,3 +362,9 @@ ggsave(
   filename = here("output/figures", "resident_abundance.png"), 
   device = "png"
 )
+
+write.csv(
+  x = mw_tidy2,
+  file = here("data/final", "veg_surveys_2020.csv"),
+  row.names = FALSE
+)
