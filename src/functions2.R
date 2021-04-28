@@ -1,3 +1,85 @@
+#' bind_mw_2016
+#' 
+#' Row-bind multiple data sets from the Meadoway (TRCA) 2016 vegetative
+#' surveying monitoring database provided by Scott MacIvor
+#'
+#'#' @param file_name an excel file 
+#' with a strict file-name format "
+#' MV24_plot_Meadow_Ground-Vegetation_year.xlsx
+#' 
+#'#' @return a data-frame consisting of the following columns (with data types): 
+#' column 1 - quadrat_no (integer)
+#' column 2 - species (character)
+#' column 3 - common_name (character) 
+#' column 4 - solitary (character)
+#' column 5 - cf (character)
+#' column 6 - comments (character)
+#' column 7 - site (character)
+#' column 8 - year (numeric)
+#' column 9 - season (character)
+#' 
+#' #' @examples
+#' Vegetative summer surveys in Section 1.1 Plot A 
+#' bind_mw_2016(file_name = MW24A_Meadow_Ground-Vegetation_2016.xlsx)
+#' 
+#' #' Vegetative summer surveys in Section 7.1 Plot N 
+#' bind_mw_2016(file_name = MW24_Meadow_Ground-Vegetation_2016.xlsx)
+#' 
+#' 
+#' 
+#' 
+
+bind_mw_2016 <- function(file_name) {
+  
+  # make sure it's from the 2016 files  
+  if(grepl("2016", file_name)) {
+    df <- readxl::read_excel(
+      here::here("data/original/veg_surveys/2016", file_name)
+    )
+  } else {
+    stop("Please ensure this is a 2016 excel file (containing a single sheet)")
+  }
+  
+  # read data
+  df <- readxl::read_excel(
+    here::here("data/original/veg_surveys/2016", file_name)
+    )
+  
+  plant_types <- c("Plant Type", "PlantType", "plant_type", "PlantType")
+  
+  if(any(colnames(df) %in% plant_types)) {
+    df <- df[, !(colnames(df) %in% plant_types)] 
+  } else {
+    df <- df
+  }
+  
+  # rename columns
+  colnames(df) <- c(
+    "quadrat", 
+    "spp", 
+    "common_name", 
+    "solitary",
+    "cf",
+    "cover", 
+    "comments"
+  )
+  
+  # coerce a character string
+  df$cf <- as.character(df$cf)
+  df$solitary <- as.character(df$solitary)
+  df$cover <- as.character(df$cover)
+  
+  # add additional info from file names
+  file_strings <- strsplit(file_name, split = "_")
+  df$site <- file_strings[[1]][2]
+  df$year <- substring(file_strings[[1]][5], first = 1, last = 4)
+  
+  # add in Summer column
+  df$season <- "Summer"
+  
+  return(df)
+}
+
 #' bind_mw_2020
 #'
 #' Row-bind multiple data sets from the Meadoway (TRCA) 2020 vegetative
@@ -25,6 +107,10 @@
 #' 
 #' #' Vegetative summer surveys in Section 7.1 Plot N 
 #' bind_mw_2020(file_name = MW25_7-1_N_Ground-Veg_Summer_2020.xlsx)
+#' 
+#' 
+#' 
+#' 
 
 bind_mw_2020 <- function(file_name) {
   
@@ -59,4 +145,3 @@ bind_mw_2020 <- function(file_name) {
   
   return(import_tidy) 
 }
-
