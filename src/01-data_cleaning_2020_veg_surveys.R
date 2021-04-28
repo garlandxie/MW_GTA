@@ -6,6 +6,7 @@ library(dplyr)    # for manipulating data
 library(janitor)  # for cleaning column names
 library(ggplot2)  # for visualizing data 
 library(stringr)  # for manipulating character strings
+library(tidyr)
 
 # Import custom functions ------------------------------------------------------
 
@@ -122,7 +123,22 @@ mw_356_tidy <- mw_356 %>%
   mutate(cover = as.numeric(cover))
 
 # merge
-mw_tidy2 <- rbind(mw_tidy, mw_356_tidy)
+mw_tidy2 <- rbind(mw_tidy, mw_356_tidy) %>%
+  select(
+   quadrat = quadrat_no, 
+   spp = species, 
+   common_name, 
+   solitary, 
+   cf, 
+   cover, 
+   comments,
+   site,
+   year, 
+   season,
+   section
+  ) %>%
+  mutate(cover = replace_na(cover, "0.1"))
+  
 
 # check packaging
 str(mw_tidy2)
