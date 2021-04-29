@@ -2,13 +2,15 @@ import_2016_data <- function(file_name) {
 
   # make sure it's from the 2016 files  
   if(grepl("2016", file_name)) {
-    df <- readxl::read_excel(here::here("data/original", file_name))
+    df <- readxl::read_excel(
+      here::here("data/original/veg_surveys/2016", file_name)
+      )
   } else {
     stop("Please ensure this is a 2016 excel file (containing a single sheet)")
   }
   
   # read data
-  df <- readxl::read_excel(here::here("data/original", file_name))
+  df <- readxl::read_excel(here::here("data/original/veg_surveys/2016", file_name))
   
   
   plant_types <- c("Plant Type", "PlantType", "plant_type", "PlantType")
