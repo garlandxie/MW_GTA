@@ -55,8 +55,9 @@ cover_max <- mw_summ %>%
     caption = "Error bars: standard deviation (1 unit)") + 
   scale_x_discrete(breaks = c("2016", "2018", "2019", "2020")) +
   gghighlight(
-    section %in% c("4.1", "4.2", "4.3", "4.4"),
-    calculate_per_facet = TRUE) + 
+    section %in% c("4.1", "4.2", "4.3", "4.4", "7.1"),
+    calculate_per_facet = TRUE,
+    use_group_by = FALSE) + 
   facet_wrap(~section) + 
   theme_bw()
 )
@@ -82,8 +83,9 @@ sr_max <- mw_summ %>%
       title = "Summer",
       caption = "Error bars: standard deviation (1 unit)") + 
     gghighlight(
-      section %in% c("4.1", "4.2", "4.3", "4.4"),
-      calculate_per_facet = TRUE) + 
+      section %in% c("4.1", "4.2", "4.3", "4.4", "7.1"),
+      calculate_per_facet = TRUE,
+      use_group_by = FALSE) + 
     facet_wrap(~section) + 
     theme_bw()
 )
@@ -105,7 +107,7 @@ dsv_cov <- mw %>%
   scale_x_discrete(breaks = c(2016, 2018, 2019, 2020)) + 
   scale_y_continuous(limits = c(0, 15)) +
   gghighlight(
-    section %in% c("4.1", "4.2", "4.3", "4.4"),
+    section %in% c("4.1", "4.2", "4.3", "4.4", "7.1"),
     use_group_by = FALSE,
     calculate_per_facet = TRUE,
     use_direct_label = FALSE) +
