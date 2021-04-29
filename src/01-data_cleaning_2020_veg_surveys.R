@@ -94,10 +94,14 @@ mw_356_tidy <- mw_356 %>%
   
   mutate(
     site = str_sub(plot_id, 11, 11),
-    section = str_sub(plot_id, 7, 9)
+    section = str_sub(plot_id, 7, 9),
+    visit = case_when(
+      visit == "summer" ~ "Summer", 
+      TRUE ~ visit
+    )
     ) %>%
   
-  filter(visit == "summer") %>%
+  filter(visit == "Summer") %>%
   
   select(
     quadrat_no, 
@@ -131,9 +135,19 @@ mw_tidy2 <- rbind(mw_tidy, mw_356_tidy) %>%
   
   mutate(cover = case_when(
     cover == "<1" ~ "0.1",
-    TRUE ~ cover
+    TRUE ~ cover)
+    ) %>%
+    
+  mutate(section = case_when(
+    section == "1-1" ~ "1.1",
+    section == "4-1" ~ "4.1",
+    section == "4-2" ~ "4.2",
+    section == "4-3" ~ "4.3",
+    section == "4-4" ~ "4.4",
+    section == "7-1" ~ "7.1",
+    TRUE ~ section)
   )
-)
+
   
 # check packaging
 str(mw_tidy2)
