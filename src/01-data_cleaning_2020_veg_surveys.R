@@ -93,7 +93,7 @@ mw_356_tidy <- mw_356 %>%
   clean_names() %>% 
   
   mutate(
-    site = str_sub(plot_id, 11, 11),
+    site = str_sub(plot_id, 10, 11),
     section = str_sub(plot_id, 7, 9),
     visit = case_when(
       visit == "summer" ~ "Summer", 
