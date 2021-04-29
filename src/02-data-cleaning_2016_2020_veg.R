@@ -50,8 +50,8 @@ rules_16_20 <- validator(
   sites      = site %in% 
     c("A", "B", "C", "D", "E", "F",
       "G", "H", "I", "J", "K", "L", 
-      "M", "N", "O", "P", "R", "V", 
-      "W", "X", "Y"),
+      "M", "N", "O", "P", "Q", "R", 
+      "V", "W", "X", "Y"),
   sections   = section %in% 
     c("1.1", "1.2", "1.3", "1.4",
       "3.2", "3.3", 
@@ -72,3 +72,6 @@ write.csv(
   row.names = FALSE
 )
 
+df <- mw_tidy %>% filter(section == "2.2")
+unique(df$year)
+unique(df$site)
