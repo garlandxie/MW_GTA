@@ -140,6 +140,8 @@ mw_tidy2 <- rbind(mw_tidy, mw_356_tidy) %>%
     
   mutate(section = case_when(
     section == "1-1" ~ "1.1",
+    section == "1-2" ~ "1.2",
+    section == "1-3" ~ "1.3",
     section == "4-1" ~ "4.1",
     section == "4-2" ~ "4.2",
     section == "4-3" ~ "4.3",
