@@ -38,22 +38,6 @@ tail(mw_tidy, n = 5)
 vis_dat(mw_tidy)
 vis_miss(mw_tidy)
 
-# data cleaning ----------------------------------------------------------------
-
-mw_tidy2 <- mw_tidy %>%
-  mutate(section = case_when(
-    section == "4-1" ~ "4.1",
-    section == "4-2" ~ "4.2", 
-    section == "4-3" ~ "4.3",
-    section == "4-4" ~ "4.4",
-    section == "7-1" ~ "7.1",
-    TRUE ~ section)
-  ) %>%
-  mutate(season = case_when(
-    season == "summer" ~ "Summer",
-    TRUE ~ season)
-    )
-
 # validate ---------------------------------------------------------------------
 
 rules_16_20 <- validator(
