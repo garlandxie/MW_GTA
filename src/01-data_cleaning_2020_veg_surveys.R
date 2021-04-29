@@ -111,15 +111,7 @@ mw_356_tidy <- mw_356 %>%
     comments,
     year = visit_year,
     site,
-    section) %>%
-  
-  mutate(
-    cover = case_when(
-      cover == "<1" ~ "0.1", 
-      TRUE ~ cover)
-  ) %>%
-  
-  mutate(cover = as.numeric(cover))
+    section) 
 
 # merge
 mw_tidy2 <- rbind(mw_tidy, mw_356_tidy) %>%
@@ -135,8 +127,7 @@ mw_tidy2 <- rbind(mw_tidy, mw_356_tidy) %>%
    year, 
    season,
    section
-  ) %>%
-  mutate(cover = replace_na(cover, "0.1"))
+  ) 
   
 
 # check packaging
