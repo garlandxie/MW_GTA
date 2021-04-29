@@ -48,12 +48,14 @@ rules_16_20 <- validator(
   pos_cover  = cover >= 0, 
   year_16_20 = year %in% c(2016, 2018, 2019, 2020),
   sites      = site %in% 
-    c("A", "B", "C", "D", "E", "F",
+    c("AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH",
+      "A", "B", "C", "D", "E", "F",
       "G", "H", "I", "J", "K", "L", 
       "M", "N", "O", "P", "Q", "R", 
-      "V", "W", "X", "Y"),
+      "S", "T", "U", "V", "W", "X", "Y"),
   sections   = section %in% 
     c("1.1", "1.2", "1.3", "1.4",
+      "2.2", "2.3", "2.4",
       "3.2", "3.3", 
       "4.1", "4.2", "4.3",  "4.4", 
       "5.1", "5.3", "5.4",
@@ -64,6 +66,9 @@ rules_16_20 <- validator(
 mw_tidy_out <- confront(mw_tidy, rules_16_20)
 summary(mw_tidy_out)
 
+# note: 
+# missing - S (2019), T (2019), U(2019)
+
 # save to disk -----------------------------------------------------------------
 
 write.csv(
@@ -71,7 +76,3 @@ write.csv(
   file = here("data/final", "veg_surveys_2016-2020.csv"),
   row.names = FALSE
 )
-
-df <- mw_tidy %>% filter(section == "2.2")
-unique(df$year)
-unique(df$site)
