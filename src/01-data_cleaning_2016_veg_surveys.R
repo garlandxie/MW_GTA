@@ -79,8 +79,14 @@ rules_2016 <- validator(
   no_neg_cover = cover >= 0,
   year_2016 = year == "2016", 
   summer_only = season == "Summer",
-  sites = site %in% c("A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"),
-  sections = section %in% c("4.1", "4.2", "4.3", "4.4", "7.1")
+  sites = site %in% 
+    c("A", "B", "C", 
+      "D", "E", "F",
+      "G", "H", "I", 
+      "J", "K", "L", 
+      "M", "N", "O"),
+  sections = section %in%
+    c("4.1", "4.2", "4.3", "4.4", "7.1")
 )
 
 mw_2016_out <- confront(mw_2016_tidy, rules_2016)
