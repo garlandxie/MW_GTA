@@ -88,6 +88,37 @@ sr_max <- mw_summ %>%
     theme_bw()
 )
 
+# plot: DSV cover --------------------------------------------------------------
+
+dsv_cov <- mw %>%
+  filter(spp   == "Cynanchum rossicum",
+         cover <= 15) %>%
+  mutate(quadrat = as.character(quadrat),
+         year    = as.character(year)
+  )
+
+(plot_dsv_cov <- dsv_cov %>%
+  ggplot(aes(x = year, y = cover, group = quadrat, col = quadrat)) + 
+  geom_point() + 
+  geom_line() + 
+  scale_color_discrete(name = "Quadrat") + 
+  scale_x_discrete(breaks = c(2016, 2018, 2019, 2020)) + 
+  scale_y_continuous(limits = c(0, 15)) +
+  gghighlight(
+    section %in% c("4.1", "4.2", "4.3", "4.4"),
+    use_group_by = FALSE,
+    calculate_per_facet = TRUE,
+    use_direct_label = FALSE) +
+  labs(
+    x = "Year", 
+    y = "DSV Cover (%)",
+    title = "Summer"
+  ) +
+  facet_wrap(section~site) +
+  theme_bw()
+)
+
+
 # save the plots! --------------------------------------------------------------
 
 ggsave(
@@ -107,3 +138,14 @@ ggsave(
   width = 8, 
   units = "in"
 )
+
+ggsave(
+  plot = plot_dsv_cov, 
+  filename = here("output/figures", "plot_dsv_cov_summer.png"),
+  device = "png",
+  height = 8, 
+  width = 10, 
+  units = "in"
+)
+
+
