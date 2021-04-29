@@ -51,7 +51,7 @@ rules_16_20 <- validator(
     c("A", "B", "C", "D", "E", "F",
       "G", "H", "I", "J", "K", "L", 
       "M", "N", "O", "P", "R", "V", 
-      "W", "X"),
+      "W", "X", "Y"),
   sections   = section %in% 
     c("1.1", "1.2", "1.3", "1.4",
       "3.2", "3.3", 
@@ -61,13 +61,13 @@ rules_16_20 <- validator(
       "7.1")
 )
 
-mw_tidy2_out <- confront(mw_tidy2, rules_16_20)
-summary(mw_tidy2_out)
+mw_tidy_out <- confront(mw_tidy, rules_16_20)
+summary(mw_tidy_out)
 
 # save to disk -----------------------------------------------------------------
 
 write.csv(
-  x = mw_tidy2,
+  x = mw_tidy,
   file = here("data/final", "veg_surveys_2016-2020.csv"),
   row.names = FALSE
 )
