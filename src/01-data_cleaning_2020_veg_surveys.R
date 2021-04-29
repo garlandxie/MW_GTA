@@ -149,12 +149,6 @@ dim(mw_tidy2)
 
 # save to disk! ----------------------------------------------------------------
 
-ggsave(
-  plot = plot_res_abund, 
-  filename = here("output/figures", "resident_abundance.png"), 
-  device = "png"
-)
-
 write.csv(
   x = mw_tidy2,
   file = here("data/final", "veg_surveys_2020.csv"),
