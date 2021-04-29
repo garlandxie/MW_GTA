@@ -137,7 +137,7 @@ bind_mw_2020 <- function(file_name) {
   import_tidy$species     <- as.character(import_tidy$species)
   import_tidy$solitary    <- as.character(import_tidy$solitary)
   import_tidy$cf          <- as.character(import_tidy$cf)
-  import_tidy$cover       <- as.numeric(import_tidy$cover)
+  import_tidy$cover       <- as.character(import_tidy$cover)
   import_tidy$comments    <- as.character(import_tidy$comments)
   import_tidy$season      <- as.character(import_tidy$season)  
   import_tidy$year        <- as.numeric(import_tidy$year) 
